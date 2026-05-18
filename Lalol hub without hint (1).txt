@@ -1,4 +1,4 @@
--- [[ Main Framework Setup: YOSF SAROKE K3 ]]
+-- [[ K3 HUB - ALL IN ONE SHORT CODE ]]
 local Players = game:GetService("Players")
 local CoreGui = game:GetService("CoreGui")
 local UIS = game:GetService("UserInputService")
@@ -6,469 +6,221 @@ local RunService = game:GetService("RunService")
 local SoundService = game:GetService("SoundService")
 local plr = Players.LocalPlayer
 
-if CoreGui:FindFirstChild("Yosf_Hub_UI") then
-    CoreGui.Yosf_Hub_UI:Destroy()
-end
-
+if CoreGui:FindFirstChild("Yosf_Hub_UI") then CoreGui.Yosf_Hub_UI:Destroy() end
 local sg = Instance.new("ScreenGui", CoreGui)
-sg.Name = "Yosf_Hub_UI"
-sg.ResetOnSpawn = false
+sg.Name = "Yosf_Hub_UI"; sg.ResetOnSpawn = false
 
--- [ ئۆتۆماتیک لۆدکرنا ئیمۆتێن 7yd7 ]
-task.spawn(function()
-    pcall(function()
-        loadstring(game:HttpGet("https://raw.githubusercontent.com/7yd7/Hub/refs/heads/Branch/GUIS/Emotes.lua"))()
-    end)
-end)
+-- پاتکۆرد و لۆدکرنا ئیمۆتان
+task.spawn(function() pcall(function() loadstring(game:HttpGet("https://raw.githubusercontent.com/7yd7/Hub/refs/heads/Branch/GUIS/Emotes.lua"))() end) end)
 
--- Notification يا دەستپێکێ ب شێوازێ Rainbow
-local function ShowNotify()
-    local NotifyGui = Instance.new("ScreenGui", CoreGui)
-    local TextLabel = Instance.new("TextLabel", NotifyGui)
-    TextLabel.Size = UDim2.new(1, 0, 0.2, 0)
-    TextLabel.Position = UDim2.new(0, 0, 0.4, 0)
-    TextLabel.BackgroundTransparency = 1
-    TextLabel.TextSize = 35
-    TextLabel.Font = Enum.Font.GothamBold
-    TextLabel.Text = ">> YOSF SAROKE K3 HUB LOADED <<"
-    
-    RunService.RenderStepped:Connect(function()
-        TextLabel.TextColor3 = Color3.fromHSV((tick() % 3) / 3, 1, 1)
-    end)
-    task.delay(3, function() NotifyGui:Destroy() end)
-end
-ShowNotify()
-
--- [[ ١. پانێلا سەرەکی (Main Frame) ]]
+-- کادرێ سەرەکی
 local mainFrame = Instance.new("Frame", sg)
-mainFrame.Size = UDim2.new(0, 360, 0, 520)
-mainFrame.Position = UDim2.new(0.5, -180, 0.5, -260)
+mainFrame.Size = UDim2.new(0, 370, 0, 520)
+mainFrame.Position = UDim2.new(0.5, -185, 0.5, -260)
 mainFrame.BackgroundColor3 = Color3.fromRGB(12, 12, 15)
-mainFrame.Active = true
-mainFrame.Draggable = true
-Instance.new("UICorner", mainFrame).CornerRadius = UDim.new(0, 14)
+mainFrame.Active = true; mainFrame.Draggable = true
+Instance.new("UICorner", mainFrame).CornerRadius = UDim.new(0, 12)
 
 local borderStroke = Instance.new("UIStroke", mainFrame)
-borderStroke.Thickness = 3
-borderStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
-RunService.RenderStepped:Connect(function()
-    borderStroke.Color = Color3.fromHSV((tick() % 4) / 4, 1, 1)
-end)
+borderStroke.Thickness = 2.5
+RunService.RenderStepped:Connect(function() borderStroke.Color = Color3.fromHSV((tick() % 4) / 4, 1, 1) end)
 
--- [[ ٢. سەرپەڕێ پانێلێ (Header) ]]
+-- ناڤێ سەرەکی
 local header = Instance.new("Frame", mainFrame)
-header.Size = UDim2.new(1, 0, 0, 50)
-header.BackgroundColor3 = Color3.fromRGB(20, 20, 25)
-Instance.new("UICorner", header).CornerRadius = UDim.new(0, 14)
+header.Size = UDim2.new(1, 0, 0, 45)
+header.BackgroundColor3 = Color3.fromRGB(18, 18, 22)
+Instance.new("UICorner", header).CornerRadius = UDim.new(0, 12)
 
 local title = Instance.new("TextLabel", header)
 title.Size = UDim2.new(1, 0, 1, 0)
 title.Text = "👑 YOSF SAROKE K3 👑"
-title.Font = Enum.Font.GothamBold
-title.TextSize = 20
-title.BackgroundTransparency = 1
-RunService.RenderStepped:Connect(function()
-    title.TextColor3 = Color3.fromHSV((tick() % 4) / 4, 1, 1)
-end)
+title.Font = Enum.Font.GothamBold; title.TextSize = 18; title.BackgroundTransparency = 1
+RunService.RenderStepped:Connect(function() title.TextColor3 = Color3.fromHSV((tick() % 4) / 4, 1, 1) end)
 
--- [[ ٣. دوگما لایەنی Hide/Show ]]
+-- دوگما لایەنی K3 HUB
 local toggleBtn = Instance.new("TextButton", sg)
-toggleBtn.Size = UDim2.new(0, 100, 0, 45)
+toggleBtn.Size = UDim2.new(0, 90, 0, 40)
 toggleBtn.Position = UDim2.new(0, 10, 0.4, 0)
 toggleBtn.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
-toggleBtn.Text = "K3 HUB"
-toggleBtn.Font = Enum.Font.GothamBold
-toggleBtn.TextSize = 15
-Instance.new("UICorner", toggleBtn).CornerRadius = UDim.new(0, 10)
-
+toggleBtn.Text = "K3 HUB"; toggleBtn.Font = Enum.Font.GothamBold; toggleBtn.TextSize = 14
+Instance.new("UICorner", toggleBtn).CornerRadius = UDim.new(0, 8)
 local toggleStroke = Instance.new("UIStroke", toggleBtn)
-toggleStroke.Thickness = 2
-RunService.RenderStepped:Connect(function()
-    local h = (tick() % 4) / 4
-    toggleStroke.Color = Color3.fromHSV(h, 1, 1)
-    toggleBtn.TextColor3 = Color3.fromHSV(h, 1, 1)
-end)
+RunService.RenderStepped:Connect(function() local h = (tick() % 4) / 4; toggleStroke.Color = Color3.fromHSV(h, 1, 1); toggleBtn.TextColor3 = Color3.fromHSV(h, 1, 1) end)
+toggleBtn.MouseButton1Click:Connect(function() mainFrame.Visible = not mainFrame.Visible end)
 
-toggleBtn.MouseButton1Click:Connect(function()
-    mainFrame.Visible = not mainFrame.Visible
-end)
-
--- [[ ٤. سکرۆڵا ناڤبەرا پانێلێ ]]
+-- سکرۆڵ
 local scroll = Instance.new("ScrollingFrame", mainFrame)
-scroll.Size = UDim2.new(1, -20, 1, -70)
-scroll.Position = UDim2.new(0, 10, 0, 60)
-scroll.BackgroundTransparency = 1
-scroll.ScrollBarThickness = 4
-scroll.ScrollBarImageColor3 = Color3.fromRGB(255, 255, 255)
-scroll.CanvasSize = UDim2.new(0, 0, 0, 0)
-scroll.AutomaticCanvasSize = Enum.AutomaticSize.Y
-
+scroll.Size = UDim2.new(1, -16, 1, -65)
+scroll.Position = UDim2.new(0, 8, 0, 55)
+scroll.BackgroundTransparency = 1; scroll.ScrollBarThickness = 3
+scroll.CanvasSize = UDim2.new(0, 0, 0, 0); scroll.AutomaticCanvasSize = Enum.AutomaticSize.Y
 local list = Instance.new("UIListLayout", scroll)
-list.Padding = UDim.new(0, 8)
-list.SortOrder = Enum.SortOrder.LayoutOrder
+list.Padding = UDim.new(0, 10); list.SortOrder = Enum.SortOrder.LayoutOrder
 
-local function createMenuButton(parent, text, color, sizeY)
+-- فەنکشنا چوارگۆشەیان
+local function createBox(titleText, sizeY)
+    local box = Instance.new("Frame", scroll)
+    box.Size = UDim2.new(1, -4, 0, sizeY)
+    box.BackgroundColor3 = Color3.fromRGB(18, 18, 24)
+    Instance.new("UICorner", box).CornerRadius = UDim.new(0, 8)
+    Instance.new("UIStroke", box).Color = Color3.fromRGB(35, 35, 40)
+    
+    local lbl = Instance.new("TextLabel", box)
+    lbl.Size = UDim2.new(1, -10, 0, 20)
+    lbl.Position = UDim2.new(0, 8, 0, 4)
+    lbl.Text = titleText; lbl.TextColor3 = Color3.fromRGB(0, 180, 255)
+    lbl.Font = Enum.Font.GothamBold; lbl.TextSize = 11; lbl.TextXAlignment = Enum.TextXAlignment.Left; lbl.BackgroundTransparency = 1
+    return box
+end
+
+local function createBtn(parent, text, color, pos, size)
     local btn = Instance.new("TextButton", parent)
-    btn.Size = UDim2.new(1, 0, 0, sizeY or 38)
+    btn.Size = size or UDim2.new(0.46, 0, 0, 30)
+    btn.Position = pos
     btn.BackgroundColor3 = color or Color3.fromRGB(30, 30, 35)
     btn.TextColor3 = Color3.new(1, 1, 1)
-    btn.Font = Enum.Font.GothamSemibold
-    btn.TextSize = 14
-    btn.Text = text
-    Instance.new("UICorner", btn).CornerRadius = UDim.new(0, 8)
+    btn.Font = Enum.Font.GothamSemibold; btn.TextSize = 11
+    btn.Text = text; Instance.new("UICorner", btn).CornerRadius = UDim.new(0, 6)
     return btn
 end
 
----------------------------------------------------------
--- پشکا داخڵکرنا ناڤێ تارجێتی و خێراییا لادانێ
----------------------------------------------------------
-local TargetInput = Instance.new("TextBox", scroll)
-TargetInput.PlaceholderText = "🎯 ناڤێ یاریزانێ تارجێت (Target)..."
-TargetInput.Size = UDim2.new(1, -5, 0, 35)
-TargetInput.BackgroundColor3 = Color3.fromRGB(20, 20, 25)
-TargetInput.TextColor3 = Color3.fromRGB(255, 255, 255)
-TargetInput.Font = Enum.Font.Gotham
-TargetInput.TextSize = 14
-Instance.new("UICorner", TargetInput).CornerRadius = UDim.new(0, 8)
+-- 📦 ١. بۆکسا خاس: SPEED & JUMP
+local B1 = createBox("⚡ XAS JHE SPEED & JUMP", 100)
+local CustomSpeedInput = Instance.new("TextBox", B1)
+CustomSpeedInput.PlaceholderText = "Speed (16)"; CustomSpeedInput.Size = UDim2.new(0.46, 0, 0, 30); CustomSpeedInput.Position = UDim2.new(0.03, 0, 0, 28)
+CustomSpeedInput.BackgroundColor3 = Color3.fromRGB(28, 28, 35); CustomSpeedInput.TextColor3 = Color3.new(1,1,1); CustomSpeedInput.Font = Enum.Font.Gotham; CustomSpeedInput.TextSize = 12; Instance.new("UICorner", CustomSpeedInput)
 
-local SpeedInput = Instance.new("TextBox", scroll)
-SpeedInput.Text = "25"
-SpeedInput.PlaceholderText = "خێراییا تەقاندنێ (Xas Speed)..."
-SpeedInput.Size = UDim2.new(1, -5, 0, 35)
-SpeedInput.BackgroundColor3 = Color3.fromRGB(20, 20, 25)
-SpeedInput.TextColor3 = Color3.fromRGB(255, 255, 255)
-SpeedInput.Font = Enum.Font.Gotham
-SpeedInput.TextSize = 14
-Instance.new("UICorner", SpeedInput).CornerRadius = UDim.new(0, 8)
+local CustomJumpInput = Instance.new("TextBox", B1)
+CustomJumpInput.PlaceholderText = "Jump (50)"; CustomJumpInput.Size = UDim2.new(0.46, 0, 0, 30); CustomJumpInput.Position = UDim2.new(0.51, 0, 0, 28)
+CustomJumpInput.BackgroundColor3 = Color3.fromRGB(28, 28, 35); CustomJumpInput.TextColor3 = Color3.new(1,1,1); CustomJumpInput.Font = Enum.Font.Gotham; CustomJumpInput.TextSize = 12; Instance.new("UICorner", CustomJumpInput)
 
----------------------------------------------------------
--- [[ پشکا نوی: Speed & Jump ل تەنشت ئێک ]]
----------------------------------------------------------
-local StatsHolder = Instance.new("Frame", scroll)
-StatsHolder.Size = UDim2.new(1, -5, 0, 38)
-StatsHolder.BackgroundTransparency = 1
-local rowLayout = Instance.new("UIListLayout", StatsHolder)
-rowLayout.FillDirection = Enum.FillDirection.Horizontal
-rowLayout.Padding = UDim.new(0, 6)
+local ApplyStatsBtn = createBtn(B1, "Apply Stats ⚡", Color3.fromRGB(0, 100, 200), UDim2.new(0.94, 0, 0, 30), UDim2.new(0.03, 0, 0, 62))
 
-local CustomSpeedInput = Instance.new("TextBox", StatsHolder)
-CustomSpeedInput.PlaceholderText = "Speed (16)"
-CustomSpeedInput.Size = UDim2.new(0.49, 0, 1, 0)
-CustomSpeedInput.BackgroundColor3 = Color3.fromRGB(20, 20, 25)
-CustomSpeedInput.TextColor3 = Color3.fromRGB(255, 255, 255)
-CustomSpeedInput.Font = Enum.Font.Gotham; CustomSpeedInput.TextSize = 13
-Instance.new("UICorner", CustomSpeedInput).CornerRadius = UDim.new(0, 8)
+-- 📦 ٢. بۆکسا خاس: BANG MODES & XAS MOD
+local B2 = createBox("🎯 XAS MOD & BANG SYSTEM", 135)
+local TargetInput = Instance.new("TextBox", B2)
+TargetInput.PlaceholderText = "🎯 Target Player..."; TargetInput.Size = UDim2.new(0.46, 0, 0, 30); TargetInput.Position = UDim2.new(0.03, 0, 0, 28)
+TargetInput.BackgroundColor3 = Color3.fromRGB(28, 28, 35); TargetInput.TextColor3 = Color3.new(1,1,1); TargetInput.Font = Enum.Font.Gotham; TargetInput.TextSize = 11; Instance.new("UICorner", TargetInput)
 
-local CustomJumpInput = Instance.new("TextBox", StatsHolder)
-CustomJumpInput.PlaceholderText = "Jump (50)"
-CustomJumpInput.Size = UDim2.new(0.49, 0, 1, 0)
-CustomJumpInput.BackgroundColor3 = Color3.fromRGB(20, 20, 25)
-CustomJumpInput.TextColor3 = Color3.fromRGB(255, 255, 255)
-CustomJumpInput.Font = Enum.Font.Gotham; CustomJumpInput.TextSize = 13
-Instance.new("UICorner", CustomJumpInput).CornerRadius = UDim.new(0, 8)
+local SpeedInput = Instance.new("TextBox", B2)
+SpeedInput.Text = "25"; SpeedInput.Size = UDim2.new(0.46, 0, 0, 30); SpeedInput.Position = UDim2.new(0.03, 0, 0, 62)
+SpeedInput.BackgroundColor3 = Color3.fromRGB(28, 28, 35); SpeedInput.TextColor3 = Color3.new(1,1,1); SpeedInput.Font = Enum.Font.Gotham; SpeedInput.TextSize = 11; Instance.new("UICorner", SpeedInput)
 
-local ApplyStatsBtn = createMenuButton(scroll, "Apply Speed & Jump ⚡", Color3.fromRGB(0, 100, 200))
+local AntiBangBtn = createBtn(B2, "ANTI-BANG", Color3.fromRGB(55, 65, 60), UDim2.new(0.03, 0, 0, 96))
+local FrontBtn = createBtn(B2, "MODE 1: FRONT", Color3.fromRGB(0, 120, 90), UDim2.new(0.51, 0, 0, 28))
+local BackBtn = createBtn(B2, "MODE 2: BACK", Color3.fromRGB(0, 90, 140), UDim2.new(0.51, 0, 0, 62))
+local StopBtn = createBtn(B2, "STOP XAS MOD", Color3.fromRGB(140, 0, 0), UDim2.new(0.51, 0, 0, 96))
 
----------------------------------------------------------
--- [[ پشکا: Xas Mod (چوارگۆشەیا ڕێکخستی) ]]
----------------------------------------------------------
-local XasFrame = Instance.new("Frame", scroll)
-XasFrame.Size = UDim2.new(1, -5, 0, 95)
-XasFrame.BackgroundColor3 = Color3.fromRGB(18, 18, 22)
-Instance.new("UICorner", XasFrame).CornerRadius = UDim.new(0, 10)
-local xasGrid = Instance.new("UIGridLayout", XasFrame)
-xasGrid.CellSize = UDim2.new(0.48, 0, 0, 38)
-xasGrid.CellPadding = UDim2.new(0.03, 0, 0, 8)
-xasGrid.HorizontalAlignment = Enum.HorizontalAlignment.Center
+-- 📦 ٣. بۆکسا خاس: STEALTH TOOLS
+local B3 = createBox("👻 XAS JHE INVISIBLE & STEALTH", 100)
+local invisBtn = createBtn(B3, "Invisible 👻", Color3.fromRGB(45, 45, 45), UDim2.new(0.03, 0, 0, 28))
+local ghostBtn = createBtn(B3, "Ghost Speed ⚡", Color3.fromRGB(45, 45, 45), UDim2.new(0.51, 0, 0, 28))
+local noclipBtn = createBtn(B3, "Toggle Noclip 🚪", Color3.fromRGB(45, 45, 45), UDim2.new(0.03, 0, 0, 62))
+local qonataBtn = createBtn(B3, "QONATA: OFF", Color3.fromRGB(140, 0, 0), UDim2.new(0.51, 0, 0, 62))
 
-local AntiBangBtn = createMenuButton(XasFrame, "ANTI-BANG (FIXED)", Color3.fromRGB(45, 55, 50))
-local FrontBtn = createMenuButton(XasFrame, "MODE 1: FRONT", Color3.fromRGB(0, 120, 90))
-local BackBtn = createMenuButton(XasFrame, "MODE 2: BACK", Color3.fromRGB(0, 90, 140))
-local StopBtn = createMenuButton(XasFrame, "STOP XAS MOD", Color3.fromRGB(140, 0, 0))
+-- 📦 ٤. بۆکسا خاس: 7YD7 EMOTES
+local B4 = createBox("🕺 XAS JHE 7YD7 EMOTES", 70)
+local emotesBtn = createBtn(B4, "Unlock 7yd7 Emotes 🕺", Color3.fromRGB(70, 0, 120), UDim2.new(0.03, 0, 0, 28))
+local antiVoidBtn = createBtn(B4, "Anti-Void: ON", Color3.fromRGB(0, 140, 0), UDim2.new(0.51, 0, 0, 28))
 
----------------------------------------------------------
--- [[ پشکا: Invis & Ghost (دوو ل تەنشت ئێک) ]]
----------------------------------------------------------
-local StealthHolder = Instance.new("Frame", scroll)
-StealthHolder.Size = UDim2.new(1, -5, 0, 38)
-StealthHolder.BackgroundTransparency = 1
-local stealthLayout = Instance.new("UIListLayout", StealthHolder)
-stealthLayout.FillDirection = Enum.FillDirection.Horizontal
-stealthLayout.Padding = UDim.new(0, 6)
+-- 📦 ٥. بۆکسا خاس: BOOMBOX TRACKER
+local B5 = createBox("🎵 XAS JHE BOOMBOX TRACKER", 130)
+local tScroll = Instance.new("ScrollingFrame", B5)
+tScroll.Size = UDim2.new(0.96, 0, 0, 95); tScroll.Position = UDim2.new(0.02, 0, 0, 26); tScroll.BackgroundTransparency = 1; tScroll.ScrollBarThickness = 2
+tScroll.CanvasSize = UDim2.new(0,0,0,0); tScroll.AutomaticCanvasSize = Enum.AutomaticSize.Y
+local tList = Instance.new("UIListLayout", tScroll); tList.Padding = UDim.new(0, 4)
 
-local invisBtn = Instance.new("TextButton", StealthHolder)
-invisBtn.Size = UDim2.new(0.49, 0, 1, 0)
-invisBtn.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
-invisBtn.Text = "Invisible 👻"
-invisBtn.TextColor3 = Color3.new(1,1,1)
-invisBtn.Font = Enum.Font.GothamSemibold; invisBtn.TextSize = 13
-Instance.new("UICorner", invisBtn).CornerRadius = UDim.new(0, 8)
-
-local ghostBtn = Instance.new("TextButton", StealthHolder)
-ghostBtn.Size = UDim2.new(0.49, 0, 1, 0)
-ghostBtn.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
-ghostBtn.Text = "Ghost Speed ⚡"
-ghostBtn.TextColor3 = Color3.new(1,1,1)
-ghostBtn.Font = Enum.Font.GothamSemibold; ghostBtn.TextSize = 13
-Instance.new("UICorner", ghostBtn).CornerRadius = UDim.new(0, 8)
-
----------------------------------------------------------
--- [[ دوگمەیێن پاقژ یێن دی ]]
----------------------------------------------------------
-local emotesBtn = createMenuButton(scroll, "Unlock All 7yd7 Emotes 🕺", Color3.fromRGB(70, 0, 120))
-local antiVoidBtn = createMenuButton(scroll, "Anti-Void: ON", Color3.fromRGB(0, 140, 0))
-local noclipBtn = createMenuButton(scroll, "Toggle Noclip 🚪", Color3.fromRGB(45, 45, 45))
-local qonataBtn = createMenuButton(scroll, "QONATA: OFF", Color3.fromRGB(140, 0, 0))
-
----------------------------------------------------------
--- [[ K3 Boombox Tracker ]]
----------------------------------------------------------
-local trackerLabel = Instance.new("TextLabel", scroll)
-trackerLabel.Size = UDim2.new(1, -5, 0, 25)
-trackerLabel.Text = "─── K3 Boombox Tracker ───"
-trackerLabel.TextColor3 = Color3.fromRGB(220, 220, 220)
-trackerLabel.Font = Enum.Font.GothamBold
-trackerLabel.TextSize = 12 trackerLabel.BackgroundTransparency = 1
-
-local lastSeen = {}
-local currentPreview = nil
-
+local lastSeen, currentPreview = {}, nil
 local function createTrackerEntry(soundId, ownerName)
     local idOnly = tostring(soundId):match("%d+")
-    local entry = Instance.new("Frame", scroll)
-    entry.Size = UDim2.new(1, -5, 0, 60)
-    entry.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
-    Instance.new("UICorner", entry).CornerRadius = UDim.new(0, 8)
-
-    local info = Instance.new("TextLabel", entry)
-    info.Size = UDim2.new(0.6, 0, 1, 0)
-    info.Position = UDim2.new(0, 10, 0, 0)
-    info.Text = "Owner: " .. ownerName .. "\nID: " .. idOnly
-    info.TextColor3 = Color3.new(1, 1, 1)
-    info.TextXAlignment = Enum.TextXAlignment.Left
-    info.Font = Enum.Font.Gotham
-    info.TextSize = 12 info.BackgroundTransparency = 1
-
-    local cpBtn = Instance.new("TextButton", entry)
-    cpBtn.Size = UDim2.new(0, 60, 0, 22)
-    cpBtn.Position = UDim2.new(0.75, -5, 0.15, 0)
-    cpBtn.Text = "Copy"
-    cpBtn.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
-    cpBtn.TextColor3 = Color3.new(1, 1, 1)
-    Instance.new("UICorner", cpBtn)
-
-    cpBtn.MouseButton1Click:Connect(function()
-        if setclipboard then setclipboard(idOnly) cpBtn.Text = "Done" task.wait(0.5) cpBtn.Text = "Copy" end
-    end)
-
-    local lsBtn = Instance.new("TextButton", entry)
-    lsBtn.Size = UDim2.new(0, 60, 0, 22)
-    lsBtn.Position = UDim2.new(0.75, -5, 0.55, 0)
-    lsBtn.Text = "Listen"
-    lsBtn.BackgroundColor3 = Color3.fromRGB(0, 100, 0)
-    lsBtn.TextColor3 = Color3.new(1, 1, 1)
-    Instance.new("UICorner", lsBtn)
-
-    lsBtn.MouseButton1Click:Connect(function()
-        if currentPreview then currentPreview:Stop() currentPreview:Destroy() end
-        if lsBtn.Text == "Listen" then
-            for _, v in pairs(scroll:GetDescendants()) do
-                if v:IsA("TextButton") and v.Text == "Stop" then v.Text = "Listen" v.BackgroundColor3 = Color3.fromRGB(0, 100, 0) end
-            end
-            lsBtn.Text = "Stop"
-            lsBtn.BackgroundColor3 = Color3.fromRGB(130, 0, 0)
-            currentPreview = Instance.new("Sound", SoundService)
-            currentPreview.SoundId = "rbxassetid://" .. idOnly
-            currentPreview:Play()
-        else
-            lsBtn.Text = "Listen"
-            lsBtn.BackgroundColor3 = Color3.fromRGB(0, 100, 0)
-        end
+    local entry = Instance.new("Frame", tScroll); entry.Size = UDim2.new(1, 0, 0, 36); entry.BackgroundColor3 = Color3.fromRGB(25, 25, 30); Instance.new("UICorner", entry)
+    local info = Instance.new("TextLabel", entry); info.Size = UDim2.new(0.55, 0, 1, 0); info.Position = UDim2.new(0, 6, 0, 0); info.Text = "Owner: "..ownerName.."\nID: "..idOnly; info.TextColor3 = Color3.new(1,1,1); info.Font = Enum.Font.Gotham; info.TextSize = 9; info.BackgroundTransparency = 1; info.TextXAlignment = Enum.TextXAlignment.Left
+    local cp = createBtn(entry, "Copy", Color3.fromRGB(50, 50, 50), UDim2.new(0.6, 0, 0.2, 0), UDim2.new(0, 45, 0, 20))
+    cp.MouseButton1Click:Connect(function() if setclipboard then setclipboard(idOnly) cp.Text = "Done" task.wait(0.4) cp.Text = "Copy" end end)
+    local ls = createBtn(entry, "Listen", Color3.fromRGB(0, 100, 0), UDim2.new(0.8, 0, 0.2, 0), UDim2.new(0, 45, 0, 20))
+    ls.MouseButton1Click:Connect(function()
+        if currentPreview then currentPreview:Stop(); currentPreview:Destroy() end
+        if ls.Text == "Listen" then for _, v in pairs(tScroll:GetDescendants()) do if v:IsA("TextButton") and v.Text == "Stop" then v.Text = "Listen"; v.BackgroundColor3 = Color3.fromRGB(0, 100, 0) end end
+            ls.Text = "Stop"; ls.BackgroundColor3 = Color3.fromRGB(130, 0, 0); currentPreview = Instance.new("Sound", SoundService); currentPreview.SoundId = "rbxassetid://" .. idOnly; currentPreview:Play()
+        else ls.Text = "Listen"; ls.BackgroundColor3 = Color3.fromRGB(0, 100, 0) end
     end)
 end
 
-local function checkSound(v)
-    if v:IsA("Sound") and v.SoundId ~= "" then
-        local id = v.SoundId:match("%d+")
-        if id and not lastSeen[id] then lastSeen[id] = true createTrackerEntry(id, "Player") end
-    end
-end
-
+local function checkSound(v) if v:IsA("Sound") and v.SoundId ~= "" then local id = v.SoundId:match("%d+") if id and not lastSeen[id] then lastSeen[id] = true createTrackerEntry(id, "Player") end end end
 workspace.DescendantAdded:Connect(function(v) task.wait(0.1) checkSound(v) end)
 for _, v in pairs(workspace:GetDescendants()) do checkSound(v) end
 
--- [[ Logic & Teleport Functions ]]
-local TargetPlayer = nil
-local Mode = ""
-local IsActive = false
-local Angle = 0
-local antiVoidActive = true
-local invisOn, ghostOn, noclipOn, qonataActive = false, false, false, false
-local ghostSpeed = 50
+-- [[ Logic & Teleports Functions ]]
+local TargetPlayer, Mode, IsActive, Angle, antiVoidActive = nil, "", false, 0, true
+local invisOn, ghostOn, noclipOn, qonataActive, ghostSpeed = false, false, false, false, 50
 
-local function GetPlayer(S)
-    if S == "" then return nil end
-    for _, v in pairs(Players:GetPlayers()) do
-        if v.Name:lower():find(S:lower()) or v.DisplayName:lower():find(S:lower()) then return v end
-    end
-end
-
-local function updateStats()
-    local char = plr.Character
-    local hum = char and char:FindFirstChildOfClass("Humanoid")
-    if hum then
-        local speedVal = tonumber(CustomSpeedInput.Text)
-        local jumpVal = tonumber(CustomJumpInput.Text)
-        if speedVal then hum.WalkSpeed = speedVal end
-        if jumpVal then hum.JumpPower = jumpVal; hum.UseJumpPower = true end
-    end
-end
+local function GetPlayer(S) if S == "" then return nil end for _, v in pairs(Players:GetPlayers()) do if v.Name:lower():find(S:lower()) or v.DisplayName:lower():find(S:lower()) then return v end end end
+local function updateStats() local hum = plr.Character and plr.Character:FindFirstChildOfClass("Humanoid") if hum then local s, j = tonumber(CustomSpeedInput.Text), tonumber(CustomJumpInput.Text) if s then hum.WalkSpeed = s end if j then hum.JumpPower = j; hum.UseJumpPower = true end end end
 
 ApplyStatsBtn.MouseButton1Click:Connect(updateStats)
-plr.CharacterAdded:Connect(function(char)
-    char:WaitForChild("Humanoid")
-    task.wait(0.5)
-    updateStats()
-end)
-
-AntiBangBtn.MouseButton1Click:Connect(function()
-    local hrp = plr.Character:FindFirstChild("HumanoidRootPart")
-    if hrp then
-        workspace.FallenPartsDestroyHeight = -1000
-        local lastCFrame = hrp.CFrame
-        hrp.CFrame = CFrame.new(Vector3.new(0, -500, 0))
-        task.wait(0.7)
-        hrp.CFrame = lastCFrame
-        workspace.FallenPartsDestroyHeight = -500
-    end
-end)
-
-FrontBtn.MouseButton1Click:Connect(function()
-    TargetPlayer = GetPlayer(TargetInput.Text)
-    if TargetPlayer then Mode = "Front" IsActive = true plr.Character.Humanoid.Sit = true end
-end)
-
-BackBtn.MouseButton1Click:Connect(function()
-    TargetPlayer = GetPlayer(TargetInput.Text)
-    if TargetPlayer then Mode = "Back" IsActive = true plr.Character.Humanoid.Sit = true end
-end)
-
-StopBtn.MouseButton1Click:Connect(function() 
-    IsActive = false; Mode = "" 
-    if plr.Character:FindFirstChild("Humanoid") then plr.Character.Humanoid.Sit = false end
-    if plr.Character:FindFirstChild("HumanoidRootPart") then plr.Character.HumanoidRootPart.Velocity = Vector3.new(0,0,0) end
-end)
-
-emotesBtn.MouseButton1Click:Connect(function()
-    emotesBtn.Text = "Emotes Loaded! ✅"; emotesBtn.BackgroundColor3 = Color3.fromRGB(0, 120, 0)
-end)
-
-antiVoidBtn.MouseButton1Click:Connect(function()
-    antiVoidActive = not antiVoidActive
-    antiVoidBtn.Text = antiVoidActive and "Anti-Void: ON" or "Anti-Void: OFF"
-    antiVoidBtn.BackgroundColor3 = antiVoidActive and Color3.fromRGB(0, 140, 0) or Color3.fromRGB(140, 0, 0)
-end)
-
-local function setTransparency(char, val)
-    for _, p in ipairs(char:GetDescendants()) do
-        if p:IsA("BasePart") and p.Name ~= "HumanoidRootPart" then p.Transparency = val end
-    end
-end
+AntiBangBtn.MouseButton1Click:Connect(function() local hrp = plr.Character:FindFirstChild("HumanoidRootPart") if hrp then workspace.FallenPartsDestroyHeight = -1000; local last = hrp.CFrame; hrp.CFrame = CFrame.new(Vector3.new(0, -500, 0)); task.wait(0.7); hrp.CFrame = last; workspace.FallenPartsDestroyHeight = -500 end end)
+FrontBtn.MouseButton1Click:Connect(function() TargetPlayer = GetPlayer(TargetInput.Text) if TargetPlayer then Mode = "Front" IsActive = true plr.Character.Humanoid.Sit = true end end)
+BackBtn.MouseButton1Click:Connect(function() TargetPlayer = GetPlayer(TargetInput.Text) if TargetPlayer then Mode = "Back" IsActive = true plr.Character.Humanoid.Sit = true end end)
+StopBtn.MouseButton1Click:Connect(function() IsActive = false; Mode = "" if plr.Character:FindFirstChild("Humanoid") then plr.Character.Humanoid.Sit = false end end)
+emotesBtn.MouseButton1Click:Connect(function() emotesBtn.Text = "Loaded! ✅"; emotesBtn.BackgroundColor3 = Color3.fromRGB(0, 120, 0) end)
+antiVoidBtn.MouseButton1Click:Connect(function() antiVoidActive = not antiVoidActive; antiVoidBtn.Text = antiVoidActive and "Anti-Void: ON" or "Anti-Void: OFF"; antiVoidBtn.BackgroundColor3 = antiVoidActive and Color3.fromRGB(0, 140, 0) or Color3.fromRGB(140, 0, 0) end)
 
 invisBtn.MouseButton1Click:Connect(function()
-    invisOn = not invisOn
-    local char = plr.Character
+    invisOn = not invisOn; local char = plr.Character
     if char then
-        if invisOn then
-            invisBtn.BackgroundColor3 = Color3.fromRGB(0, 120, 0)
-            setTransparency(char, 0.5)
-            local savedpos = char.HumanoidRootPart.CFrame
-            task.wait()
-            char:MoveTo(Vector3.new(-25.95, 84, 3537.55))
-            task.wait(0.15)
-            local Seat = Instance.new("Seat", workspace)
-            Seat.Anchored = false; Seat.CanCollide = false; Seat.Name = "invischair"; Seat.Transparency = 1
-            Seat.Position = Vector3.new(-25.95, 84, 3537.55)
-            local Weld = Instance.new("Weld", Seat)
-            Weld.Part0 = Seat; Weld.Part1 = char:FindFirstChild("Torso") or char:FindFirstChild("UpperTorso")
-            Seat.CFrame = savedpos
-        else
-            invisBtn.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
-            setTransparency(char, 0)
-            if workspace:FindFirstChild("invischair") then workspace.invischair:Destroy() end
+        if invisOn then invisBtn.BackgroundColor3 = Color3.fromRGB(0, 120, 0) for _, p in ipairs(char:GetDescendants()) do if p:IsA("BasePart") and p.Name ~= "HumanoidRootPart" then p.Transparency = 0.5 end end
+            local saved = char.HumanoidRootPart.CFrame; task.wait(); char:MoveTo(Vector3.new(-25.95, 84, 3537.55)); task.wait(0.15)
+            local Seat = Instance.new("Seat", workspace); Seat.Anchored = false; Seat.CanCollide = false; Seat.Name = "invischair"; Seat.Transparency = 1; Seat.Position = Vector3.new(-25.95, 84, 3537.55)
+            local Weld = Instance.new("Weld", Seat); Weld.Part0 = Seat; Weld.Part1 = char:FindFirstChild("Torso") or char:FindFirstChild("UpperTorso"); Seat.CFrame = saved
+        else invisBtn.BackgroundColor3 = Color3.fromRGB(45, 45, 45) for _, p in ipairs(char:GetDescendants()) do if p:IsA("BasePart") and p.Name ~= "HumanoidRootPart" then p.Transparency = 0 end end if workspace:FindFirstChild("invischair") then workspace.invischair:Destroy() end end
+    end
+end)
+
+local gConn; ghostBtn.MouseButton1Click:Connect(function() ghostOn = not ghostOn; local hum = plr.Character and plr.Character:FindFirstChildOfClass("Humanoid") if ghostOn then ghostBtn.BackgroundColor3 = Color3.fromRGB(0, 120, 0); gConn = RunService.Stepped:Connect(function() if hum then hum.WalkSpeed = ghostSpeed end end) else ghostBtn.BackgroundColor3 = Color3.fromRGB(45, 45, 45); if gConn then gConn:Disconnect() end if hum then hum.WalkSpeed = 16 end end end)
+local nConn; noclipBtn.MouseButton1Click:Connect(function() noclipOn = not noclipOn; if noclipOn then noclipBtn.BackgroundColor3 = Color3.fromRGB(0, 120, 0); nConn = RunService.Stepped:Connect(function() local char = plr.Character if char then for _, part in ipairs(char:GetDescendants()) do if part:IsA("BasePart") then part.CanCollide = false end end end end) else noclipBtn.BackgroundColor3 = Color3.fromRGB(45, 45, 45); if nConn then nConn:Disconnect() end end end)
+qonataBtn.MouseButton1Click:Connect(function() qonataActive = not qonataActive; local char = plr.Character; qonataBtn.Text = qonataActive and "QONATA: ON" or "QONATA: OFF"; qonataBtn.BackgroundColor3 = qonataActive and Color3.fromRGB(0, 140, 0) or Color3.fromRGB(140, 0, 0); if char then for _, v in pairs(char:GetDescendants()) do if v:IsA("BasePart") then v.CanTouch = not qonataActive end end end end)
+
+RunService.Heartbeat:Connect(function(dt)
+    if antiVoidActive then pcall(function() local char = plr.Character; local hrp = char and char:FindFirstChild("HumanoidRootPart") if hrp and char.Humanoid.Health > 0 and hrp.Position.Y < -50 then hrp.Velocity = Vector3.new(0, 0, 0); hrp.CFrame = CFrame.new(Vector3.new(0, 20, 0)) end end) end
+    if IsActive and TargetPlayer and TargetPlayer.Character and plr.Character then
+        local MyRoot = plr.Character:FindFirstChild("HumanoidRootPart"); local TheirRoot = TargetPlayer.Character:FindFirstChild("HumanoidRootPart")
+        if MyRoot and TheirRoot then local Speed = tonumber(SpeedInput.Text) or 25; Angle = Angle + (Speed * dt); local MoveOffset = math.sin(Angle) * 1.5
+            if Mode == "Front" then MyRoot.CFrame = TheirRoot.CFrame * CFrame.new(0, 0.9, -1.1) * CFrame.Angles(0, math.pi, 0) * CFrame.new(0, 0, MoveOffset)
+            elseif Mode == "Back" then MyRoot.CFrame = TheirRoot.CFrame * CFrame.new(0, 0.9, 1.1) * CFrame.new(0, 0, MoveOffset) end MyRoot.Velocity = Vector3.new(0,0,0)
         end
     end
 end)
-
-local ghostConn
-ghostBtn.MouseButton1Click:Connect(function()
-    ghostOn = not ghostOn
-    local hum = plr.Character and plr.Character:FindFirstChildOfClass("Humanoid")
-    if ghostOn then
-        ghostBtn.BackgroundColor3 = Color3.fromRGB(0, 120, 0)
-        ghostConn = RunService.Stepped:Connect(function() if hum then hum.WalkSpeed = ghostSpeed end end)
-    else
-        ghostBtn.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
-        if ghostConn then ghostConn:Disconnect() end
-        if hum then hum.WalkSpeed = 16 end
+UIS.InputBegan:Connect(function(i, g) if not g and i.KeyCode == Enum.KeyCode.K then mainFrame.Visible = not mainFrame.Visible end end)RunService.Heartbeat:Connect(function(dt)
+    if antiVoidActive then 
+        pcall(function() 
+            local char = plr.Character; 
+            local hrp = char and char:FindFirstChild("HumanoidRootPart") 
+            if hrp and char.Humanoid.Health > 0 and hrp.Position.Y < -50 then 
+                hrp.Velocity = Vector3.new(0, 0, 0); 
+                hrp.CFrame = CFrame.new(Vector3.new(0, 20, 0)) 
+            end 
+        end) 
     end
-end)
-
-local noclipConn
-noclipBtn.MouseButton1Click:Connect(function()
-    noclipOn = not noclipOn
-    if noclipOn then
-        noclipBtn.BackgroundColor3 = Color3.fromRGB(0, 120, 0)
-        noclipConn = RunService.Stepped:Connect(function()
-            local char = plr.Character
-            if char then for _, part in ipairs(char:GetDescendants()) do if part:IsA("BasePart") then part.CanCollide = false end end end
-        end)
-    else
-        noclipBtn.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
-        if noclipConn then noclipConn:Disconnect() end
-    end
-end)
-
-qonataBtn.MouseButton1Click:Connect(function()
-    qonataActive = not qonataActive
-    local char = plr.Character
-    qonataBtn.Text = qonataActive and "QONATA: ON" or "QONATA: OFF"
-    qonataBtn.BackgroundColor3 = qonataActive and Color3.fromRGB(0, 140, 0) or Color3.fromRGB(140, 0, 0)
-    if char then for _, v in pairs(char:GetDescendants()) do if v:IsA("BasePart") then v.CanTouch = not qonataActive end end end
-end)
-
--- Loop Heartbeat updates
-RunService.Heartbeat:Connect(function(dt)
-    if antiVoidActive then
-        pcall(function()
-            local char = plr.Character
-            local hrp = char and char:FindFirstChild("HumanoidRootPart")
-            if hrp and char.Humanoid.Health > 0 and hrp.Position.Y < -50 then
-                hrp.Velocity = Vector3.new(0, 0, 0)
-                hrp.CFrame = CFrame.new(Vector3.new(0, 20, 0))
-            end
-        end)
-    end
-    
     if IsActive and TargetPlayer and TargetPlayer.Character and plr.Character then
-        local MyRoot = plr.Character:FindFirstChild("HumanoidRootPart")
+        local MyRoot = plr.Character:FindFirstChild("HumanoidRootPart"); 
         local TheirRoot = TargetPlayer.Character:FindFirstChild("HumanoidRootPart")
-        if MyRoot and TheirRoot then
-            local Speed = tonumber(SpeedInput.Text) or 25
-            Angle = Angle + (Speed * dt)
+        if MyRoot and TheirRoot then 
+            local Speed = tonumber(SpeedInput.Text) or 25; 
+            Angle = Angle + (Speed * dt); 
             local MoveOffset = math.sin(Angle) * 1.5
-            
-            if Mode == "Front" then
+            if Mode == "Front" then 
                 MyRoot.CFrame = TheirRoot.CFrame * CFrame.new(0, 0.9, -1.1) * CFrame.Angles(0, math.pi, 0) * CFrame.new(0, 0, MoveOffset)
-            elseif Mode == "Back" then
-                MyRoot.CFrame = TheirRoot.CFrame * CFrame.new(0, 0.9, 1.1) * CFrame.new(0, 0, MoveOffset)
-            end
+            elseif Mode == "Back" then 
+                MyRoot.CFrame = TheirRoot.CFrame * CFrame.new(0, 0.9, 1.1) * CFrame.new(0, 0, MoveOffset) 
+            end 
             MyRoot.Velocity = Vector3.new(0,0,0)
         end
     end
 end)
 
-UIS.InputBegan:Connect(function(input, gpe)
-    if gpe then return end
-    if input.KeyCode == Enum.KeyCode.K then mainFrame.Visible = not mainFrame.Visible end
+UIS.InputBegan:Connect(function(i, g) 
+    if not g and i.KeyCode == Enum.KeyCode.K then 
+        mainFrame.Visible = not mainFrame.Visible 
+    end 
 end)
+
