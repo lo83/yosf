@@ -41,23 +41,21 @@ ShowNotify()
 
 -- [[ ١. پانێلا سەرەکی (Main Frame) ]]
 local mainFrame = Instance.new("Frame", sg)
-mainFrame.Size = UDim2.new(0, 360, 0, 540)
-mainFrame.Position = UDim2.new(0.5, -180, 0.5, -270)
+mainFrame.Size = UDim2.new(0, 360, 0, 520)
+mainFrame.Position = UDim2.new(0.5, -180, 0.5, -260)
 mainFrame.BackgroundColor3 = Color3.fromRGB(12, 12, 15)
 mainFrame.Active = true
 mainFrame.Draggable = true
 Instance.new("UICorner", mainFrame).CornerRadius = UDim.new(0, 14)
 
--- [[ ٢. ڕەنگێ Rainbow بۆ دەوروبەرێن پانێلێ ]]
 local borderStroke = Instance.new("UIStroke", mainFrame)
 borderStroke.Thickness = 3
 borderStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
-
 RunService.RenderStepped:Connect(function()
     borderStroke.Color = Color3.fromHSV((tick() % 4) / 4, 1, 1)
 end)
 
--- [[ ٣. سەرپەڕێ پانێلێ (Header) و ناڤێ نوو ب ستایڵێ Rainbow ]]
+-- [[ ٢. سەرپەڕێ پانێلێ (Header) ]]
 local header = Instance.new("Frame", mainFrame)
 header.Size = UDim2.new(1, 0, 0, 50)
 header.BackgroundColor3 = Color3.fromRGB(20, 20, 25)
@@ -69,12 +67,11 @@ title.Text = "👑 YOSF SAROKE K3 👑"
 title.Font = Enum.Font.GothamBold
 title.TextSize = 20
 title.BackgroundTransparency = 1
-
 RunService.RenderStepped:Connect(function()
     title.TextColor3 = Color3.fromHSV((tick() % 4) / 4, 1, 1)
 end)
 
--- [[ ٤. دوگما لایەنی بۆ Hide/Show ب ستایڵێ Rainbow ]]
+-- [[ ٣. دوگما لایەنی Hide/Show ]]
 local toggleBtn = Instance.new("TextButton", sg)
 toggleBtn.Size = UDim2.new(0, 100, 0, 45)
 toggleBtn.Position = UDim2.new(0, 10, 0.4, 0)
@@ -96,7 +93,7 @@ toggleBtn.MouseButton1Click:Connect(function()
     mainFrame.Visible = not mainFrame.Visible
 end)
 
--- [[ ٥. سکرۆڵ بۆ پشک و دوگمەیان ]]
+-- [[ ٤. سکرۆڵا ناڤبەرا پانێلێ ]]
 local scroll = Instance.new("ScrollingFrame", mainFrame)
 scroll.Size = UDim2.new(1, -20, 1, -70)
 scroll.Position = UDim2.new(0, 10, 0, 60)
@@ -107,12 +104,12 @@ scroll.CanvasSize = UDim2.new(0, 0, 0, 0)
 scroll.AutomaticCanvasSize = Enum.AutomaticSize.Y
 
 local list = Instance.new("UIListLayout", scroll)
-list.Padding = UDim.new(0, 10)
+list.Padding = UDim.new(0, 8)
 list.SortOrder = Enum.SortOrder.LayoutOrder
 
-local function createMenuButton(text, color)
-    local btn = Instance.new("TextButton", scroll)
-    btn.Size = UDim2.new(1, -5, 0, 40)
+local function createMenuButton(parent, text, color, sizeY)
+    local btn = Instance.new("TextButton", parent)
+    btn.Size = UDim2.new(1, 0, 0, sizeY or 38)
     btn.BackgroundColor3 = color or Color3.fromRGB(30, 30, 35)
     btn.TextColor3 = Color3.new(1, 1, 1)
     btn.Font = Enum.Font.GothamSemibold
@@ -123,12 +120,12 @@ local function createMenuButton(text, color)
 end
 
 ---------------------------------------------------------
--- Inputs پشکا داخڵکرنا زانیاریان
+-- پشکا داخڵکرنا ناڤێ تارجێتی و خێراییا لادانێ
 ---------------------------------------------------------
 local TargetInput = Instance.new("TextBox", scroll)
-TargetInput.PlaceholderText = "Target Player Name..."
+TargetInput.PlaceholderText = "🎯 ناڤێ یاریزانێ تارجێت (Target)..."
 TargetInput.Size = UDim2.new(1, -5, 0, 35)
-TargetInput.BackgroundColor3 = Color3.fromRGB(25, 25, 30)
+TargetInput.BackgroundColor3 = Color3.fromRGB(20, 20, 25)
 TargetInput.TextColor3 = Color3.fromRGB(255, 255, 255)
 TargetInput.Font = Enum.Font.Gotham
 TargetInput.TextSize = 14
@@ -136,51 +133,92 @@ Instance.new("UICorner", TargetInput).CornerRadius = UDim.new(0, 8)
 
 local SpeedInput = Instance.new("TextBox", scroll)
 SpeedInput.Text = "25"
+SpeedInput.PlaceholderText = "خێراییا تەقاندنێ (Xas Speed)..."
 SpeedInput.Size = UDim2.new(1, -5, 0, 35)
-SpeedInput.BackgroundColor3 = Color3.fromRGB(25, 25, 30)
+SpeedInput.BackgroundColor3 = Color3.fromRGB(20, 20, 25)
 SpeedInput.TextColor3 = Color3.fromRGB(255, 255, 255)
 SpeedInput.Font = Enum.Font.Gotham
 SpeedInput.TextSize = 14
 Instance.new("UICorner", SpeedInput).CornerRadius = UDim.new(0, 8)
 
--- [[ زێدەکرنا پشکێن نوو یێن WalkSpeed و JumpPower ]]
-local CustomSpeedInput = Instance.new("TextBox", scroll)
-CustomSpeedInput.PlaceholderText = "Custom WalkSpeed (Default: 16)..."
-CustomSpeedInput.Size = UDim2.new(1, -5, 0, 35)
-CustomSpeedInput.BackgroundColor3 = Color3.fromRGB(25, 25, 30)
+---------------------------------------------------------
+-- [[ پشکا نوی: Speed & Jump ل تەنشت ئێک ]]
+---------------------------------------------------------
+local StatsHolder = Instance.new("Frame", scroll)
+StatsHolder.Size = UDim2.new(1, -5, 0, 38)
+StatsHolder.BackgroundTransparency = 1
+local rowLayout = Instance.new("UIListLayout", StatsHolder)
+rowLayout.FillDirection = Enum.FillDirection.Horizontal
+rowLayout.Padding = UDim.new(0, 6)
+
+local CustomSpeedInput = Instance.new("TextBox", StatsHolder)
+CustomSpeedInput.PlaceholderText = "Speed (16)"
+CustomSpeedInput.Size = UDim2.new(0.49, 0, 1, 0)
+CustomSpeedInput.BackgroundColor3 = Color3.fromRGB(20, 20, 25)
 CustomSpeedInput.TextColor3 = Color3.fromRGB(255, 255, 255)
-CustomSpeedInput.Font = Enum.Font.Gotham
-CustomSpeedInput.TextSize = 14
+CustomSpeedInput.Font = Enum.Font.Gotham; CustomSpeedInput.TextSize = 13
 Instance.new("UICorner", CustomSpeedInput).CornerRadius = UDim.new(0, 8)
 
-local CustomJumpInput = Instance.new("TextBox", scroll)
-CustomJumpInput.PlaceholderText = "Custom JumpPower (Default: 50)..."
-CustomJumpInput.Size = UDim2.new(1, -5, 0, 35)
-CustomJumpInput.BackgroundColor3 = Color3.fromRGB(25, 25, 30)
+local CustomJumpInput = Instance.new("TextBox", StatsHolder)
+CustomJumpInput.PlaceholderText = "Jump (50)"
+CustomJumpInput.Size = UDim2.new(0.49, 0, 1, 0)
+CustomJumpInput.BackgroundColor3 = Color3.fromRGB(20, 20, 25)
 CustomJumpInput.TextColor3 = Color3.fromRGB(255, 255, 255)
-CustomJumpInput.Font = Enum.Font.Gotham
-CustomJumpInput.TextSize = 14
+CustomJumpInput.Font = Enum.Font.Gotham; CustomJumpInput.TextSize = 13
 Instance.new("UICorner", CustomJumpInput).CornerRadius = UDim.new(0, 8)
 
-local ApplyStatsBtn = createMenuButton("Apply Speed & Jump ⚡", Color3.fromRGB(0, 100, 200))
+local ApplyStatsBtn = createMenuButton(scroll, "Apply Speed & Jump ⚡", Color3.fromRGB(0, 100, 200))
 
 ---------------------------------------------------------
--- [[ Xas Mod Modes ]]
+-- [[ پشکا: Xas Mod (چوارگۆشەیا ڕێکخستی) ]]
 ---------------------------------------------------------
-local AntiBangBtn = createMenuButton("ANTI-BANG (FIXED)", Color3.fromRGB(45, 55, 50))
-local FrontBtn = createMenuButton("MODE 1: FRONT", Color3.fromRGB(0, 120, 90))
-local BackBtn = createMenuButton("MODE 2: BACK", Color3.fromRGB(0, 90, 140))
-local StopBtn = createMenuButton("STOP XAS MOD", Color3.fromRGB(140, 0, 0))
+local XasFrame = Instance.new("Frame", scroll)
+XasFrame.Size = UDim2.new(1, -5, 0, 95)
+XasFrame.BackgroundColor3 = Color3.fromRGB(18, 18, 22)
+Instance.new("UICorner", XasFrame).CornerRadius = UDim.new(0, 10)
+local xasGrid = Instance.new("UIGridLayout", XasFrame)
+xasGrid.CellSize = UDim2.new(0.48, 0, 0, 38)
+xasGrid.CellPadding = UDim2.new(0.03, 0, 0, 8)
+xasGrid.HorizontalAlignment = Enum.HorizontalAlignment.Center
+
+local AntiBangBtn = createMenuButton(XasFrame, "ANTI-BANG (FIXED)", Color3.fromRGB(45, 55, 50))
+local FrontBtn = createMenuButton(XasFrame, "MODE 1: FRONT", Color3.fromRGB(0, 120, 90))
+local BackBtn = createMenuButton(XasFrame, "MODE 2: BACK", Color3.fromRGB(0, 90, 140))
+local StopBtn = createMenuButton(XasFrame, "STOP XAS MOD", Color3.fromRGB(140, 0, 0))
 
 ---------------------------------------------------------
--- [[ Free Emotes & Anti-Void & Tools ]]
+-- [[ پشکا: Invis & Ghost (دوو ل تەنشت ئێک) ]]
 ---------------------------------------------------------
-local emotesBtn = createMenuButton("Unlock All 7yd7 Emotes 🕺", Color3.fromRGB(70, 0, 120))
-local antiVoidBtn = createMenuButton("Anti-Void: ON", Color3.fromRGB(0, 140, 0))
-local invisBtn = createMenuButton("Toggle Invisibility 👻", Color3.fromRGB(45, 45, 45))
-local ghostBtn = createMenuButton("Toggle Ghost Speed ⚡", Color3.fromRGB(45, 45, 45))
-local noclipBtn = createMenuButton("Toggle Noclip 🚪", Color3.fromRGB(45, 45, 45))
-local qonataBtn = createMenuButton("QONATA: OFF", Color3.fromRGB(140, 0, 0))
+local StealthHolder = Instance.new("Frame", scroll)
+StealthHolder.Size = UDim2.new(1, -5, 0, 38)
+StealthHolder.BackgroundTransparency = 1
+local stealthLayout = Instance.new("UIListLayout", StealthHolder)
+stealthLayout.FillDirection = Enum.FillDirection.Horizontal
+stealthLayout.Padding = UDim.new(0, 6)
+
+local invisBtn = Instance.new("TextButton", StealthHolder)
+invisBtn.Size = UDim2.new(0.49, 0, 1, 0)
+invisBtn.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
+invisBtn.Text = "Invisible 👻"
+invisBtn.TextColor3 = Color3.new(1,1,1)
+invisBtn.Font = Enum.Font.GothamSemibold; invisBtn.TextSize = 13
+Instance.new("UICorner", invisBtn).CornerRadius = UDim.new(0, 8)
+
+local ghostBtn = Instance.new("TextButton", StealthHolder)
+ghostBtn.Size = UDim2.new(0.49, 0, 1, 0)
+ghostBtn.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
+ghostBtn.Text = "Ghost Speed ⚡"
+ghostBtn.TextColor3 = Color3.new(1,1,1)
+ghostBtn.Font = Enum.Font.GothamSemibold; ghostBtn.TextSize = 13
+Instance.new("UICorner", ghostBtn).CornerRadius = UDim.new(0, 8)
+
+---------------------------------------------------------
+-- [[ دوگمەیێن پاقژ یێن دی ]]
+---------------------------------------------------------
+local emotesBtn = createMenuButton(scroll, "Unlock All 7yd7 Emotes 🕺", Color3.fromRGB(70, 0, 120))
+local antiVoidBtn = createMenuButton(scroll, "Anti-Void: ON", Color3.fromRGB(0, 140, 0))
+local noclipBtn = createMenuButton(scroll, "Toggle Noclip 🚪", Color3.fromRGB(45, 45, 45))
+local qonataBtn = createMenuButton(scroll, "QONATA: OFF", Color3.fromRGB(140, 0, 0))
 
 ---------------------------------------------------------
 -- [[ K3 Boombox Tracker ]]
@@ -275,7 +313,6 @@ local function GetPlayer(S)
     end
 end
 
--- لۆجیکێ گۆڕینا خێرایی و بازدانێ
 local function updateStats()
     local char = plr.Character
     local hum = char and char:FindFirstChildOfClass("Humanoid")
@@ -402,7 +439,6 @@ end)
 
 -- Loop Heartbeat updates
 RunService.Heartbeat:Connect(function(dt)
-    -- Anti-Void
     if antiVoidActive then
         pcall(function()
             local char = plr.Character
@@ -414,7 +450,6 @@ RunService.Heartbeat:Connect(function(dt)
         end)
     end
     
-    -- Xas Mod Motion
     if IsActive and TargetPlayer and TargetPlayer.Character and plr.Character then
         local MyRoot = plr.Character:FindFirstChild("HumanoidRootPart")
         local TheirRoot = TargetPlayer.Character:FindFirstChild("HumanoidRootPart")
@@ -433,7 +468,6 @@ RunService.Heartbeat:Connect(function(dt)
     end
 end)
 
--- [[ Keybind Shortcut ]]
 UIS.InputBegan:Connect(function(input, gpe)
     if gpe then return end
     if input.KeyCode == Enum.KeyCode.K then mainFrame.Visible = not mainFrame.Visible end
